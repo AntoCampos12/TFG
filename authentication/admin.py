@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Liga, Equipos, Jugador, EquipoJugador, Jornada
+from .models import Liga, Equipos, Jugador, EquipoJugador, Jornada, Exchange
 
 class JugadorAdmin(admin.ModelAdmin):
     search_fields = [
@@ -27,7 +27,9 @@ class JornadaAdmin(admin.ModelAdmin):
 
     def get_nombre(self, obj):
         return obj.jugador.nombre
+    
 
+admin.site.register(Exchange)
 admin.site.register(Liga)
 admin.site.register(Jugador, JugadorAdmin)
 admin.site.register(Equipos)

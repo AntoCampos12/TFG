@@ -61,7 +61,7 @@ class Ligas extends Component {
                     <Row>
                         <Col md="4"></Col>
                         <Col md="4">
-                            <Card>
+                            <Card className='mt-5'>
                                 <Card.Body>
                                     <Card.Title>Bienvenido {this.state.user}</Card.Title>
                                     <Card.Text>
@@ -85,9 +85,14 @@ class Ligas extends Component {
                                             <Button variant='primary' className='mb-3' as={ Link } to="/join">Unirse a una liga</Button>
                                         </Col>
                                     </Row>
-                                    <div>
-                                        <Button variant='danger' onClick={() => {this.cerrarSesión()}}>Cerrar Sesión</Button>
-                                    </div>
+                                    <Row>
+                                        <Col className='text-center'>
+                                            <Button variant='danger'  className="mt-4" onClick={() => {this.cerrarSesión()}}>Cerrar Sesión</Button>
+                                        </Col>
+                                        <Col className='text-center'>
+                                            <Button variant='secondary' className="mt-4" as={ Link } to="/authentication/update">Ajustes</Button>
+                                        </Col>
+                                    </Row>
                                 </Card.Body>
                             </Card>
                         </Col>

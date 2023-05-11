@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from .forms import LigaForm, JoinForm
-from authentication.models import EquipoJugador, Liga, Equipos, Jugador, Jornada
+from authentication.models import EquipoJugador, Liga, Equipos, Jugador, Jornada, Actualizar
 import http.client
 from time import sleep
 import json
@@ -53,7 +53,7 @@ def poblar(request):
             print(n)"""
 
 def jornada(request, pk):
-    if(Equipos.objects.get(pk=pk).actualizar == 0):
+    if(Equipos.objects.get(pk=pk).actualizar == 0 and Actualizar.objects.first().actualizar == 0):
         print("================== POBLANDO =========================")
         conn = http.client.HTTPSConnection("api-football-v1.p.rapidapi.com")
 
@@ -62,9 +62,9 @@ def jornada(request, pk):
             'X-RapidAPI-Host': "api-football-v1.p.rapidapi.com"
             }
 
-        num = Jornada.objects.all().first().jornada
+        num = Jornada.objects.all().last().jornada
         for n in range(0,10):
-                sleep(10)
+                sleep(3)
                 conn.request("GET", "/v3/fixtures/players?fixture={}".format(num + n), headers=headers)
 
                 res = conn.getresponse()
@@ -101,13 +101,19 @@ def jornada(request, pk):
 
 def cambiardia(request, pk):
     e = Equipos.objects.get(pk = pk)
-    if(e.actualizar == 0 and datetime.now().weekday() == 0):
+    act = Actualizar.objects.first()
+    if(e.actualizar == 0 and datetime.now().weekday() == 1):
         e.actualizar = 1
         e.puntuacion = e.puntuacion + getPuntos(pk)
         e.save()
-    elif(e.actualizar == 1 and datetime.now().weekday() != 0):
+        act.actualizar = 1
+        act.save()
+    elif(e.actualizar == 1 and datetime.now().weekday() != 1):
+        print("AAAAAAA")
         e.actualizar = 0
         e.save()
+        act.actualizar = 0
+        act.save()
     return render(request, "index.html") 
 
 def getPuntos(pk):

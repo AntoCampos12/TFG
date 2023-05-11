@@ -13,7 +13,7 @@ code {
 } */
 
 body {
-  background-image: url(./messi.jpg);
+  background-image: url('./messi.jpg');
   background-size: cover;
   background-repeat: no-repeat;
 }

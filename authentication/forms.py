@@ -1,5 +1,11 @@
 from django import forms
 
+class UpdateForm(forms.Form):
+    username = forms.CharField(max_length= 25)
+    email = forms.CharField(max_length=25)
+    first_name = forms.CharField(max_length=25)
+    last_name = forms.CharField(max_length=25)
+    
 class UserForm(forms.Form):
     username = forms.CharField(max_length= 25)
     email = forms.CharField(max_length=25)

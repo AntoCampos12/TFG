@@ -2,6 +2,10 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 
+class Actualizar(models.Model):
+    actualizar = models.IntegerField(
+        default=0,
+        validators=[MinValueValidator(0), MaxValueValidator(1)])
 
 class Liga(models.Model):
     name = models.CharField(max_length= 25)
@@ -45,6 +49,22 @@ class Jornada(models.Model):
     rating = models.FloatField(default=0.00)
     jornada = models.IntegerField(default=0) 
 
+
+OPCIONES_POSICION = (
+    ("POR", "PORTERO"),
+    ("LI", "LATERAL IZQUIERDO"),
+    ("LD", "LATERAL DERECHO"),
+    ("DFCD", "DEFENSA CENTRAL DERECHO"),
+    ("DFCI", "DEFENSA CENTRAL IZQUIERDO"),
+    ("MCD", "CENTROCAMPISTA DEFENSIVO"),
+    ("MI", "CENTROCAMPISTA IZQUIERDO"),
+    ("MD", "CENTROCAMPISTA DERECHO"),
+    ("DC", "DELANTERO CENTRO"),
+    ("EI", "EXTREMO IZQUIERDO"),
+    ("ED", "EXTREMO DERECHO"),
+    ("SUS", "BANQUILLO")
+)
+
 class EquipoJugador(models.Model):
     liga = models.ForeignKey(
         Liga, on_delete=models.CASCADE
@@ -55,6 +75,20 @@ class EquipoJugador(models.Model):
     jugador = models.ForeignKey(
         Jugador, on_delete=models.CASCADE
     )
+
+    posicion = models.CharField(
+        max_length=50, choices=OPCIONES_POSICION, default="SUS"
+    )
+
+class Exchange(models.Model):
+    usuario_ofrece = models.ForeignKey(
+        Equipos, on_delete= models.CASCADE, related_name="usuario_ofrece"
+    )
+    usuario_recibe = models.ForeignKey(
+        Equipos, on_delete= models.CASCADE, related_name="usuario_recibe"
+    )
+    jugadores_ofrece = models.ManyToManyField(Jugador, related_name="jugadores_ofrece+")
+    jugadores_recibe = models.ManyToManyField(Jugador, related_name="jugadores_recibe+")
     
 
 

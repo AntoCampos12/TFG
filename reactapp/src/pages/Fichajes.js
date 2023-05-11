@@ -8,6 +8,7 @@ import Alert from 'react-bootstrap/Alert'
 import axios from 'axios';
 import Container from 'react-bootstrap/esm/Container';
 import Button from 'react-bootstrap/Button';
+import Pagination from 'react-bootstrap/Pagination';
 
 
 function commafy( num, equipo ) {
@@ -15,6 +16,7 @@ function commafy( num, equipo ) {
     let equipos = {'Girona': 0.5, 'Sevilla' : 0.80, 'Rayo Vallecano': 0.6, 'Real Sociedad': 0.85, 'Barcelona' : 1.00, 'Real Betis' : 0.80, 'Elche': 0.3, 'Villarreal':0.80, 'Valladolid': 0.4, 'Athletic Club':0.75, 'Cadiz': 0.4, 'Getafe': 0.4, 'Celta Vigo': 0.6, 'Espanyol': 0.5, 'FC Cartagena' : 0.2, 'Valencia': 0.4, 'Osasuna': 0.7, 'Atletico Madrid' : 0.85, 'Almeria': 0.4, 'Real Madrid': 1.00, 'Mallorca': 0.5}
 
     num = num * equipos[equipo]
+    num = parseInt(num)
 
     var str = num.toString().split('.');
     if (str[0].length >= 5) {
@@ -45,22 +47,30 @@ function Fichajes() {
 
     const [jugadores, setJugadores] = useState([])
     const [presupuesto, setPresupuesto] = useState(0.00)
+    const [page, setPage] = useState(1)
     const { pk } = useParams();
 
-    console.log(jugadores)
 
-    if(jugadores == undefined || jugadores.length != 5) {
+    if(jugadores === undefined || jugadores.length === 0) {
             axios(
             {
                 method: "get",
                 url: "/partidas/" + pk + "/freeAgents"
             }
         ).then((response) => {
-            let res = response.data.jugadores
-            console.log(res)
-            setPresupuesto(res[0])
-            setJugadores(res.slice(1,res.length))
+            let res = response.data.jugadores;
+            setPresupuesto(res[0]);
+            setJugadores(res);
         })
+    }
+
+    let items = [];
+    for (let number = 1; number <= 3; number++) {
+        items.push(
+            <Pagination.Item key={number} active={number === page} onClick={() => {setPage(number)}}>
+            {number}
+            </Pagination.Item>,
+        );
     }
 
     return(
@@ -77,7 +87,7 @@ function Fichajes() {
                     <p className='text-center mb-3'>PRESUPUESTO: {commafy(presupuesto,"Barcelona")} €</p>
                     {
                         jugadores == undefined || jugadores.length == 0?<span></span>:
-                        jugadores.map(
+                        jugadores.slice(5*(page-1) + 1, 5*(page-1) + 6).map(
                             j => (
                                 <Alert>
                                     <img src={j.foto} style={{ width: 50, height: 50, borderRadius: 50}}/> &nbsp; {j.nombre}, {j.equipo} &nbsp; &nbsp; &nbsp; Precio: {commafy(j.rating * 5000000, j.equipo)}
@@ -86,6 +96,13 @@ function Fichajes() {
                             )
                         )
                     }
+                    <Row>
+                        <Col></Col>
+                        <Col className='d-flex justify-content-center'>
+                            <Pagination>{ items }</Pagination>
+                        </Col>
+                        <Col></Col>
+                    </Row>
                 </Card.Text>
             </Card.Body>
         </Card>

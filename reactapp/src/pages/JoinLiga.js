@@ -58,7 +58,6 @@ class JoinLiga extends Component {
         event.preventDefault()
         let formField = new FormData()
 
-
         formField.append('nombreEquipo', this.state.nombreEquipo2)
         formField.append('nombreLiga', this.state.nombreLiga2)
         formField.append('password', 'noProcede')

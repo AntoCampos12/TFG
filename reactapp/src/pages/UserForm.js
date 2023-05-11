@@ -62,11 +62,11 @@ class UserForm extends Component {
         { this.state.redirect && <Navigate to="/authentication/login/" replace={true} state={{ r: false }}/>}
         <Container style={{ maxWidth: 6000 }}>
         <Row>
-        {this.state.error != ''?this.AlertErrors(this.state.error):<span></span>}
         <Col className='w'>
           <Row className='h-100 justify-content-center align-items-center'>
               <Col md="11">
                 <h1 className='text-center mt-3'>REGISTRARSE</h1>
+                {this.state.error != ''?this.AlertErrors(this.state.error):<span></span>}
                 <Form action="/authentication/" onSubmit={this.handleSubmit}>
                   <Form.Group as={Row} className = "mb-3 mt-4" controlId='formPlaintextUsername'>
                     <Form.Label column sm="2">

@@ -6,8 +6,9 @@ import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import React, { useState } from 'react';
 import Container from 'react-bootstrap/Container';
-import '../Comunio.css'
-import axel from '../axel.jpg'
+import '../Comunio.css';
+import axel from '../axel.jpg';
+import Alert from 'react-bootstrap/Alert';
 
 function hasKeySetTo(obj,value){
     return Object.values(obj).indexOf(value) > -1
@@ -23,7 +24,7 @@ function Comunio() {
   const [des, setDes] = useState([])
 
 
-  if(j.length == 0){
+  if(j.length === 0){
     axios(
       {
           method: "get",
@@ -33,7 +34,7 @@ function Comunio() {
       setJ(response.data.jugadores)
   })}
 
-  if(punt == 0){
+  if(punt === 0){
     axios(
       {
           method: "get",
@@ -46,53 +47,54 @@ function Comunio() {
 
   if(j.length > 0){
     for (let i = 0; i < j.length; i++) {
-      let jugador = j[i]
+      let jug = j[i]
+      let jugador = jug[0]
+      let posicion = jug[1]
       if(!hasKeySetTo(alineacion, jugador["foto"])){
-        switch (jugador["posicion"]) {
-          case "Goalkeeper":
-            if (alineacion.por == axel) {
-              console.log(jugador["foto"])
-              setAlineacion(prevJ => ({...prevJ, por: jugador["foto"]}))
-              console.log(alineacion)
-            }
-            break;
-          case "Midfielder":
-            if(alineacion.md == axel){
-              setAlineacion(prevJ => ({...prevJ, md: jugador["foto"]}))
-            }
-            else if(alineacion.mi == axel){
-              setAlineacion(prevJ => ({...prevJ, mi: jugador["foto"]}))
-            }
-            else if(alineacion.mcd == axel){
-              setAlineacion(prevJ => ({...prevJ, mcd: jugador["foto"]}))
-            }
+        switch (posicion) {
+          case "POR":
+            console.log(jugador["foto"])
+            setAlineacion(prevJ => ({...prevJ, por: jugador["foto"]}))
 
             break;
-          case "Defender":
-            if(alineacion.dfcd == axel){
-              setAlineacion(prevJ => ({...prevJ, dfcd: jugador["foto"]}))
-            }
-            else if(alineacion.dfci == axel){
-              setAlineacion(prevJ => ({...prevJ, dfci: jugador["foto"]}))
-            }
-            else if(alineacion.ld == axel){
-              setAlineacion(prevJ => ({...prevJ, ld: jugador["foto"]}))
-            }
-            else if(alineacion.li == axel){
-              setAlineacion(prevJ => ({...prevJ, li: jugador["foto"]}))
-            }
+          case "MD":
+            setAlineacion(prevJ => ({...prevJ, md: jugador["foto"]}))
 
             break;
-          case "Attacker":
-            if(alineacion.dc == axel){
-              setAlineacion(prevJ => ({...prevJ, dc: jugador["foto"]}))
-            }
-            else if(alineacion.ei == axel){
-              setAlineacion(prevJ => ({...prevJ, ei: jugador["foto"]}))
-            }
-            else if(alineacion.ed == axel){
-              setAlineacion(prevJ => ({...prevJ, ed: jugador["foto"]}))
-            }
+          case "MI":
+            setAlineacion(prevJ => ({...prevJ, mi: jugador["foto"]}))
+
+            break;
+          case "MCD":
+            setAlineacion(prevJ => ({...prevJ, mcd: jugador["foto"]}))
+
+            break;
+          case "DFCD":
+            setAlineacion(prevJ => ({...prevJ, dfcd: jugador["foto"]}))
+            
+            break;
+          case "DFCI":
+            setAlineacion(prevJ => ({...prevJ, dfci: jugador["foto"]}))
+
+            break;
+          case "LD":
+            setAlineacion(prevJ => ({...prevJ, ld: jugador["foto"]}))
+          
+            break;
+          case "LI":
+            setAlineacion(prevJ => ({...prevJ, li: jugador["foto"]}))
+
+            break;
+          case "DC":
+            setAlineacion(prevJ => ({...prevJ, dc: jugador["foto"]}))
+
+            break;
+          case "ED":
+            setAlineacion(prevJ => ({...prevJ, ei: jugador["foto"]}))
+
+            break;
+          case "EI":
+            setAlineacion(prevJ => ({...prevJ, ed: jugador["foto"]}))
 
             break;
           default:
@@ -102,87 +104,83 @@ function Comunio() {
     }
   }
 
+  let objs = Object.values(alineacion)
+
   return( 
     <>
       <Header/>
       <Container>
       <Row>
-        <Col md="2">
+        <Col lg="2">
           <Card className='mt-4'>
             <Card.Body>
-              <Card.Text>
+              <Card.Text className='text-center'>
                 Puntuación: {punt}
               </Card.Text>
             </Card.Body>
             <Card.Body>
-              <Card.Text>
-                {des.map(
+              <Card.Text className='text-center'>
+                {
+                des.map(
                   jugador => (
-                    <><span>{jugador}</span><br/></>
+                    objs.includes(jugador.split("@")[1])?
+                    <><span>{jugador.split("@")[0]}</span><br/></>:<span></span>
                   )
                 )}
               </Card.Text>
             </Card.Body>
           </Card>
         </Col>
-        <Col id='col' md="8" className="mt-5">
-          <img
-              src= {alineacion.por}
-              id="por"
-              alt="React Bootstrap logo"
-            />
-          <img
-            src= {alineacion.li}
-            id="li"
-            alt="React Bootstrap logo"
-          />
-          <img
-            src= {alineacion.dfci}
-            id="dfci"
-            alt="React Bootstrap logo"
-          />
-          <img
-            src= {alineacion.dfcd}
-            id="dfcd"
-            alt="React Bootstrap logo"
-          />
-          <img
-            src= {alineacion.ld}
-            id="ld"
-            alt="React Bootstrap logo"
-          />
-          <img
-            src= {alineacion.mcd}
-            id="mcd"
-            alt="React Bootstrap logo"
-          />
-          <img
-            src= {alineacion.mi}
-            id="mi"
-            alt="React Bootstrap logo"
-          />
-          <img
-            src= {alineacion.md}
-            id="md"
-            alt="React Bootstrap logo"
-          />
-          <img
-            src= {alineacion.ei}
-            id="ei"
-            alt="React Bootstrap logo"
-          />
-          <img
-            src= {alineacion.ed}
-            id="ed"
-            alt="React Bootstrap logo"
-          />
-          <img
-            src= {alineacion.dc}
-            id="dc"
-            alt="React Bootstrap logo"
-          />
+        <Col id='col2' lg="8" className="mt-5">
+        <Row>
+            <Col></Col>
+            <Col className='text-center'><img src={alineacion.dc} id='jug_foto'/></Col>
+            <Col></Col>
+          </Row>
+          <Row>
+            <Col sm="1"></Col>
+            <Col sm="10">
+              <Row>
+                <Col className='text-center'><img src={alineacion.ei} id='jug_foto'/></Col>
+                <Col className='text-center'><img src={alineacion.ed} id='jug_foto'/></Col>
+              </Row>
+            </Col>
+            <Col sm="1"></Col>
+          </Row>
+          <Row className='mt-5'>
+            <Col sm="1"></Col>
+            <Col sm="10">
+              <Row>
+                <Col className='text-center'><img src={alineacion.mi} id='jug_foto'/></Col>
+                <Col className='text-center'><img src={alineacion.md} id='jug_foto'/></Col>
+              </Row>
+            </Col>
+            <Col sm="1"></Col>
+          </Row>
+          <Row>
+            <Col></Col>
+            <Col className='text-center'><img src={alineacion.mcd} id='jug_foto'/></Col>
+            <Col></Col>
+          </Row>
+          <Row className='mt-5'>
+            <Col sm="2"></Col>
+            <Col sm="8">
+              <Row>
+                <Col className='text-center'><img src={alineacion.li} id='jug_foto'/></Col>
+                <Col className='text-center'><img src={alineacion.dfci} id='jug_foto'/></Col>
+                <Col className='text-center'><img src={alineacion.dfcd} id='jug_foto'/></Col>
+                <Col className='text-center'><img src={alineacion.ld} id='jug_foto'/></Col>
+              </Row>
+            </Col>
+            <Col sm="2"></Col>
+          </Row>
+          <Row className='mt-2'>
+            <Col></Col>
+            <Col className='text-center'><img src={alineacion.por} id='jug_foto'/></Col>
+            <Col></Col>
+          </Row>
         </Col>
-        <Col md="1">
+        <Col lg="2">
         </Col>
       </Row>
       </Container>

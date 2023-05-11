@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .forms import AuthenticateForm, UserForm
+from .forms import AuthenticateForm, UpdateForm, UserForm
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -40,6 +40,38 @@ def index(request):
     return render(request, 'index.html')
 
 @csrf_exempt
+def update_jugador(request):
+    if request.method == 'POST':
+        form = UpdateForm(request.POST)
+        if form.is_valid():
+            username = request.POST['username'] 
+            email = request.POST['email']
+            first_name = request.POST['first_name']
+            last_name = request.POST['last_name']
+
+            if(len(username) > 25 or len(username) < 3 and len(first_name) > 25 or len(first_name) < 3 and len(last_name) > 25 or len(last_name)<3):
+                return JsonResponse({'errors':'El tamaño del nombre de usuario, nombre y apellidos deben estar entre 3 y 25'})
+            elif(len(email) < 3 or len(email) > 25):
+                return JsonResponse({'errors':'El tamaño del correo debe estar entre 3 y 25'})
+            elif(not re.fullmatch(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b',email)):
+                return JsonResponse({'errors':'El email debe seguir la estructura nombredecorreo@correo.algo'})
+            else:
+                usuario = User.objects.get(pk = request.user.pk)
+                usuario.email = email
+                usuario.username = username
+                usuario.first_name = first_name
+                usuario.last_name = last_name
+                usuario.save()
+            return render(request, 'index.html')
+        else:
+            if(request.POST["username"] == '' or request.POST["email"] == '' or request.POST["first_name"] == '' or request.POST["last_name"] == ''):
+                return JsonResponse({'errors':'Los campos no pueden ser vacíos'})
+    else:
+        form = UpdateForm()
+    return render(request, 'index.html')
+ 
+
+@csrf_exempt
 def InicioSesion(request):
     if request.method == 'POST':
         form = AuthenticateForm(request.POST)
@@ -62,3 +94,12 @@ def InicioSesion(request):
 def cerrarSesion(request):
     logout(request)
     return render(request,"index.html")
+
+def getUsuario(request):
+    res = []
+    user = User.objects.get(username = request.user)
+    res.append(user.username)
+    res.append(user.first_name)
+    res.append(user.email)
+    res.append(user.last_name)
+    return JsonResponse({'usuario': res})

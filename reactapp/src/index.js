@@ -11,7 +11,10 @@ import JoinLiga from './pages/JoinLiga';
 import Comunio from './pages/Comunio';
 import Fichajes from './pages/Fichajes';
 import Rank from './pages/Rank';
+import Exchange from './pages/Exchange';
 import Update from './tools/Update';
+import Squad from './pages/Squad';
+import UpdatePlayer from './pages/UpdatePlayer';
 
 export default function App()
 {
@@ -28,6 +31,10 @@ export default function App()
         <Route path='/partidas/:pk/fichajes' element={<Fichajes/>}/>
         <Route path='/partidas/:pk/ranking' element={<Rank/>}/>
         <Route path='/:pk/update' element={<Update/>}/>
+        <Route path='/partidas/:pk/intercambios' element={<Exchange/>}/>
+        <Route path='/partidas/:pk/plantilla' element={<Squad/>}/>
+        <Route path='/partidas/contricante/:pk/:us' element={<Squad/>}/>
+        <Route path='/authentication/update' element={<UpdatePlayer/>}/>
       </Routes>
     </BrowserRouter>
     </>

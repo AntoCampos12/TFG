@@ -69,12 +69,12 @@ class LoginForm extends Component {
                 {this.state.redirect2 && <Navigate to="/authentication/" replace={true}/>}
                 <Container style={{ maxWidth: 6000 }}>
                 <Row>
-                {this.state.error != ''?this.AlertErrors(this.state.error):<span></span>}
                     <Col></Col>
                     <Col className='w'>
                         <Row className='h-100 justify-content-center align-items-center'>
                             <Col md="11">
                                 <h1 className='text-center mb-4'>INICIAR SESIÓN</h1>
+                                {this.state.error != ''?this.AlertErrors(this.state.error):<span></span>}
                                 <Form action="/authentication/login/" onSubmit={this.handleSubmit}>
                                 <Form.Group as={Row} controlId='formPlaintextUsername'>
                                     <Form.Label column className='mb-3' sm="2">

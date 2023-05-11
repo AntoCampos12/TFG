@@ -1,111 +1,40 @@
-#col {
-    height: 75vh; 
-    background-image: url(./campito.png);
+#col2 {
+    height: 100%;
+    background-image: url(./campo_futbol.png);
+    background-position: center center;
     background-size: contain;
     background-repeat: no-repeat;
+
+}
+
+
+#jug_foto {
+  width: 7.5vh;
+  height: 8vh;
+  border-radius: 50%;
+}
+
+@media (min-width: 1200px) {
+  #jug_foto{
+    width: 9.5vh;
+    height: 10vh;
+    border-radius: 50%;
   }
-
-#por {
-  width: 9vh;
-  height: 10vh;
-  position: absolute;
-  left: 580px;
-  top: 420px;
-  border-radius: 50%;
+  
 }
 
-#li{
-  width: 9vh;
-  height: 10vh;
-  position: absolute;
-  left: 530px;
-  top: 230px;
-  border-radius: 50%;
+@media (max-width: 767px) {
+  #jug_foto{
+    width: 4.5vh;
+    height: 5vh;
+    border-radius: 50%;
+  }
+  
 }
-
-#dfci{
-  width: 9vh;
-  height: 10vh;
-  position: absolute;
-  left: 590px;
-  top: 310px;
-  border-radius: 50%;
-}
-
-#ld{
-  width: 9vh;
-  height: 10vh;
-  position: absolute;
-  left: 940px;
-  top: 360px;
-  border-radius: 50%;
-}
-
-#dfcd{
-  width: 9vh;
-  height: 10vh;
-  position: absolute;
-  left: 770px;
-  top: 370px;
-  border-radius: 50%;
-}
-
-#mi{
-  width: 9vh;
-  height: 10vh;
-  position: absolute;
-  left: 700px;
-  top: 170px;
-  border-radius: 50%;
-}
-
-#mcd{
-  width: 9vh;
-  height: 10vh;
-  position: absolute;
-  left: 770px;
-  top: 260px;
-  border-radius: 50%;
-}
-
-#md{
-  width: 9vh;
-  height: 10vh;
-  position: absolute;
-  left: 960px;
-  top: 250px;
-  border-radius: 50%;
-}
-
-#ei{
-  width: 9vh;
-  height: 10vh;
-  position: absolute;
-  left: 800px;
-  top: 100px;
-  border-radius: 50%;
-}
-
-#dc{
-  width: 9vh;
-  height: 10vh;
-  position: absolute;
-  left: 920px;
-  top: 150px;
-  border-radius: 50%;
-}
-
-#ed{
-  width: 9vh;
-  height: 10vh;
-  position: absolute;
-  left: 1070px;
-  top: 170px;
-  border-radius: 50%;
-}
-
 
 body {
-  background-color: white;
+  background-image: url('./home.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
