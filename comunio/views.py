@@ -9,6 +9,7 @@ from time import sleep
 import json
 import random
 from datetime import datetime
+from django.db.models import Q
 
 def update(request, pk):
     return render(request,"index.html")
@@ -53,7 +54,10 @@ def poblar(request):
             print(n)"""
 
 def jornada(request, pk):
-    if(Equipos.objects.get(pk=pk).actualizar == 0 and Actualizar.objects.first().actualizar == 0):
+    print(Equipos.objects.get(pk=pk).actualizar)
+    print(Actualizar.objects.all().first().actualizar)
+    print(datetime.now().weekday())
+    if(Equipos.objects.get(pk=pk).actualizar == 0 and Actualizar.objects.all().first().actualizar == 0 and datetime.now().weekday() == 1):
         print("================== POBLANDO =========================")
         conn = http.client.HTTPSConnection("api-football-v1.p.rapidapi.com")
 
@@ -64,7 +68,6 @@ def jornada(request, pk):
 
         num = Jornada.objects.all().last().jornada
         for n in range(0,10):
-                sleep(3)
                 conn.request("GET", "/v3/fixtures/players?fixture={}".format(num + n), headers=headers)
 
                 res = conn.getresponse()
@@ -109,7 +112,6 @@ def cambiardia(request, pk):
         act.actualizar = 1
         act.save()
     elif(e.actualizar == 1 and datetime.now().weekday() != 1):
-        print("AAAAAAA")
         e.actualizar = 0
         e.save()
         act.actualizar = 0
@@ -164,7 +166,7 @@ def join(request):
 
     else:
         form = JoinForm()
-    return render("index.html")
+    return render(request,"index.html")
 
 @csrf_exempt
 def add(request):
@@ -206,3 +208,10 @@ def obtenerLigas(request):
     for i in list(Equipos.objects.filter(owner = request.user).values()):
         res.append({"equipo" : i['name'], 'liga': Liga.objects.get(pk = i["liga_id"]).name, 'pk': i['id']})
     return JsonResponse({'ligas': res})
+
+def getPublicas(request):
+    equipos = Equipos.objects.all().values('liga').distinct()
+    equipos_user = Equipos.objects.all().filter(owner = request.user).values('liga')
+    equipos = [i for i in equipos if i not in equipos_user]
+    res = [{'valores': Liga.objects.filter(pk = i['liga']).values().first(), 'numeros': Equipos.objects.filter(liga = i['liga']).count()} for i in equipos]
+    return JsonResponse({'ligas': res[:5]})

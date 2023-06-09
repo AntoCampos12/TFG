@@ -15,6 +15,7 @@ import Exchange from './pages/Exchange';
 import Update from './tools/Update';
 import Squad from './pages/Squad';
 import UpdatePlayer from './pages/UpdatePlayer';
+import Error from './tools/Error';
 
 export default function App()
 {
@@ -35,6 +36,7 @@ export default function App()
         <Route path='/partidas/:pk/plantilla' element={<Squad/>}/>
         <Route path='/partidas/contricante/:pk/:us' element={<Squad/>}/>
         <Route path='/authentication/update' element={<UpdatePlayer/>}/>
+        <Route path='/error' element={<Error/>}/>
       </Routes>
     </BrowserRouter>
     </>

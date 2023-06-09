@@ -73,7 +73,8 @@ class LoginForm extends Component {
                     <Col className='w'>
                         <Row className='h-100 justify-content-center align-items-center'>
                             <Col md="11">
-                                <h1 className='text-center mb-4'>INICIAR SESIÓN</h1>
+                                <h1 className='text-center mb-5' id='abril'>SIM SOCCER</h1>
+                                <h2 className='text-center mt-5 mb-4'>INICIAR SESIÓN</h2>
                                 {this.state.error != ''?this.AlertErrors(this.state.error):<span></span>}
                                 <Form action="/authentication/login/" onSubmit={this.handleSubmit}>
                                 <Form.Group as={Row} controlId='formPlaintextUsername'>

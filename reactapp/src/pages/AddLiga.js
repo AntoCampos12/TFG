@@ -34,7 +34,7 @@ class AddLiga extends Component {
     AlertErrors(errors) {
         if (this.state.show) {
         return (
-            <Alert variant="danger" onClose={() => this.setState({show: false})} dismissible>
+            <Alert variant="danger" onClose={() => this.setState({show: false})} className='mt-5' dismissible>
                 {errors}
             </Alert>
         );
@@ -78,7 +78,6 @@ class AddLiga extends Component {
 
     render() 
     {
-        console.log(this.state.isPublic)
             return(
             <>
                 {this.state.redirect && <Navigate to="/" replace={true} />}
@@ -91,33 +90,44 @@ class AddLiga extends Component {
                                 <Card.Body>
                                     <Card.Title>Añade una liga nueva: {this.state.user}</Card.Title>
                                     <Form action="/add/" onSubmit={this.handleSubmit}>
+                                        <h3>Liga {this.state.isPublic?<span>Pública</span>:<span>Privada</span>}</h3>
                                         <Form.Group as={ Row } controlId = "formPlaintextLiga">
-                                            <Form.Label column className='mb-3' sm="2">
+                                            <Form.Label column className='mb-3' sm="3">
                                                 Nombre de Liga:
                                             </Form.Label>
-                                            <Form.Control type='text' value={ this.state.nombreLiga } name = "nombreLiga" onChange={ this.handleChange } sm="7"></Form.Control>
+                                            <Col sm="9">
+                                                <Form.Control type='text' value={ this.state.nombreLiga } name = "nombreLiga" onChange={ this.handleChange } sm="7"></Form.Control>
+                                            </Col>
                                         </Form.Group>
                                         <Form.Group as={ Row } controlId = "formPlaintextLiga">
-                                            <Form.Label column className='mb-3' sm="2">
+                                            <Form.Label column className='mb-3' sm="3">
                                                 Nombre de tu Equipo:
                                             </Form.Label>
-                                            <Form.Control type='text' value={ this.state.nombreEquipo } name = "nombreEquipo" onChange={ this.handleChange }></Form.Control>
+                                            <Col sm="9">
+                                                <Form.Control type='text' value={ this.state.nombreEquipo } name = "nombreEquipo" onChange={ this.handleChange }></Form.Control>
+                                            </Col>
                                         </Form.Group>
-                                        <Form.Group as = { Row } controlId= "formCheckboxLiga">
+                                        <Form.Group as = { Row } controlId= "formCheckboxLiga" className='ms-3'>
                                             <Form.Check type='checkbox' label="¿Pública?" name='isPublic' id="checkbox" value={ this.state.isPublic } onChange = { this.handleChangeCheck }/>
                                         </Form.Group>
                                         { this.state.isPublic?<span></span>:
                                             <Form.Group as= { Row } controlId = "formPlaintextPassword">
-                                                <Form.Label column className='mb-3' sm="2">
+                                                <Form.Label column className='mb-3' sm="3">
                                                     Contraseña:
                                                 </Form.Label>
-                                                <Form.Control type='text' value={ this.state.password } name = "password" onChange={ this.handleChange }></Form.Control>
+                                                <Col sm="9">
+                                                    <Form.Control type='text' value={ this.state.password } name = "password" onChange={ this.handleChange }></Form.Control>
+                                                </Col>
                                             </Form.Group>
                                         }
-                                    <div>
-                                        <Button variant='danger' onClick={() => {this.setState({ redirect: true })}}>Cancelar</Button>
-                                        <Button type='submit'>Añadir</Button>
-                                    </div>
+                                    <Row className='mt-3'>
+                                        <Col className='text-center'>
+                                            <Button variant='danger' onClick={() => {this.setState({ redirect: true })}}>Cancelar</Button>
+                                        </Col>
+                                        <Col className='text-center'>
+                                            <Button type='submit'>Añadir</Button>
+                                        </Col>
+                                    </Row>
                                     </Form>
                                 </Card.Body>
                             </Card>

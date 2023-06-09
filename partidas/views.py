@@ -9,10 +9,12 @@ import random
 PRECIOS_EQUIPOS = {'Girona': 0.5, 'Sevilla' : 0.80, 'Rayo Vallecano': 0.6, 'Real Sociedad': 0.85, 'Barcelona' : 1.00, 'Real Betis' : 0.80, 'Elche': 0.3, 'Villarreal':0.80, 'Valladolid': 0.4, 'Athletic Club':0.75, 'Cadiz': 0.4, 'Getafe': 0.4, 'Celta Vigo': 0.6, 'Espanyol': 0.5, 'FC Cartagena' : 0.2, 'Valencia': 0.4, 'Osasuna': 0.7, 'Atletico Madrid' : 0.85, 'Almeria': 0.4, 'Real Madrid': 1.00, 'Mallorca': 0.5}
 
 def game(request, pk):
-    print(datetime.now().weekday())
     return render(request,"index.html")
 
-def plantilla(request, pk):
+def plantilla1(request, pk):
+    return render(request,"index.html")
+
+def plantilla2(request, pk, us):
     return render(request, "index.html")
 
 def ranking(request, pk):
@@ -196,3 +198,11 @@ def abandonarLiga(request, pk):
     e = Equipos.objects.filter(pk = pk)
     e.delete()
     return render(request, "index.html")
+
+def verify(request, pk):
+    e = Equipos.objects.filter(owner = request.user).values("id")
+    e = [i['id'] for i in e]
+    if(pk in e):
+        return JsonResponse({"v":"true"})
+    else:
+        return JsonResponse({"v":"false"})

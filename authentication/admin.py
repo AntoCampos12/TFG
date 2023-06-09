@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Liga, Equipos, Jugador, EquipoJugador, Jornada, Exchange
+from .models import Actualizar, Liga, Equipos, Jugador, EquipoJugador, Jornada, Exchange
 
 class JugadorAdmin(admin.ModelAdmin):
     search_fields = [
@@ -35,3 +35,4 @@ admin.site.register(Jugador, JugadorAdmin)
 admin.site.register(Equipos)
 admin.site.register(EquipoJugador)
 admin.site.register(Jornada, JornadaAdmin)
+admin.site.register(Actualizar)

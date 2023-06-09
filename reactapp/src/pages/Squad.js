@@ -80,8 +80,12 @@ function Squad(){
                                         j[0].posicion === "Goalkeeper"?
                                         <><Alert variant="secondary"><img src={j[0].foto}></img>&nbsp;&nbsp;&nbsp;&nbsp;{j[0].nombre}, {j[0].equipo}: {j[0].rating}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                         {
-                                            j[1] === 'SUS'?<><Button onClick={() => convocar(pk, j[0].id, 'POR')}>Convocar</Button>&nbsp;&nbsp;</>:<span></span>
-                                        }</Alert></>:<span></span>
+                                            j[1] === 'SUS' && (us === pk || us === undefined)?<><Button onClick={() => convocar(pk, j[0].id, 'POR')}>Convocar</Button>&nbsp;&nbsp;</>:<span></span>
+                                        }
+                                        {
+                                            us === pk || us === undefined?<Button variant="danger" onClick={() => vender(pk, j[0].id)}>Vender</Button>:<span></span>
+                                        }
+                                        </Alert></>:<span></span>
                                     )
                                 )}
                                 <h3>DEFENSAS</h3>
@@ -90,13 +94,15 @@ function Squad(){
                                         j[0].posicion === "Defender"?
                                         <><Alert variant="secondary"><img src={j[0].foto}></img>&nbsp;&nbsp;&nbsp;&nbsp;{j[0].nombre}, {j[0].equipo}: {j[0].rating}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                         {
-                                            j[1] === 'SUS'?<><p>Convocar como: </p>
+                                            j[1] === 'SUS' && (us === pk || us === undefined)?<><p>Convocar como: </p>
                                             <Button onClick={() => convocar(pk, j[0].id, 'LI')}>LI</Button>&nbsp;
                                             <Button onClick={() => convocar(pk, j[0].id, 'DFCI')}>DFCI</Button>&nbsp;
                                             <Button onClick={() => convocar(pk, j[0].id, 'DFCD')}>DFCD</Button>&nbsp;
                                             <Button onClick={() => convocar(pk, j[0].id, 'LD')}>LD</Button>&nbsp;&nbsp;</>:<span></span>
                                         }
-                                        <Button variant="danger" onClick={() => vender(pk, j[0].id)}>Vender</Button>
+                                        {
+                                            us === pk || us === undefined?<Button variant="danger" onClick={() => vender(pk, j[0].id)}>Vender</Button>:<span></span>
+                                        }
                                         </Alert></>:<span></span>
 
                                     )
@@ -107,10 +113,13 @@ function Squad(){
                                         j[0].posicion === "Midfielder"?
                                         <><Alert variant="secondary"><img src={j[0].foto}></img>&nbsp;&nbsp;&nbsp;&nbsp;{j[0].nombre}, {j[0].equipo}: {j[0].rating}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                         {
-                                            j[1] === 'SUS'?<><p>Convocar como: </p>
+                                            j[1] === 'SUS' && (us === pk || us === undefined)?<><p>Convocar como: </p>
                                             <Button onClick={() => convocar(pk, j[0].id, 'MI')}>MI</Button>&nbsp;
                                             <Button onClick={() => convocar(pk, j[0].id, 'MCD')}>MCD</Button>&nbsp;
                                             <Button onClick={() => convocar(pk, j[0].id, 'MD')}>MD</Button>&nbsp;&nbsp;</>:<span></span>
+                                        }
+                                        {
+                                            us === pk || us === undefined?<Button variant="danger" onClick={() => vender(pk, j[0].id)}>Vender</Button>:<span></span>
                                         }</Alert></>:<span></span>
                                     )
                                 )}
@@ -120,10 +129,13 @@ function Squad(){
                                         j[0].posicion === "Attacker"?
                                         <><Alert variant="secondary"><img src={j[0].foto}></img>&nbsp;&nbsp;&nbsp;&nbsp;{j[0].nombre}, {j[0].equipo}: {j[0].rating}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                         {
-                                            j[1] === 'SUS'?<><p>Convocar como: </p>
+                                            j[1] === 'SUS' && (us === pk || us === undefined)?<><p>Convocar como: </p>
                                             <Button onClick={() => convocar(pk, j[0].id, 'EI')}>EI</Button>&nbsp;
                                             <Button onClick={() => convocar(pk, j[0].id, 'DC')}>DC</Button>&nbsp;
                                             <Button onClick={() => convocar(pk, j[0].id, 'ED')}>ED</Button>&nbsp;&nbsp;</>:<span></span>
+                                        }
+                                        {
+                                            us === pk || us === undefined?<Button variant="danger" onClick={() => vender(pk, j[0].id)}>Vender</Button>:<span></span>
                                         }</Alert></>:<span></span>
                                     )
                                 )}

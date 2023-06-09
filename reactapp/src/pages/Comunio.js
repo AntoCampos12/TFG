@@ -8,7 +8,6 @@ import React, { useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import '../Comunio.css';
 import axel from '../axel.jpg';
-import Alert from 'react-bootstrap/Alert';
 
 function hasKeySetTo(obj,value){
     return Object.values(obj).indexOf(value) > -1
@@ -16,15 +15,17 @@ function hasKeySetTo(obj,value){
 
 function Comunio() {
   const { pk } = useParams();
-  const [j, setJ] = useState([]);
-  const [punt, setPunt] = useState(0);
+  const [j, setJ] = useState("");
+  const [punt, setPunt] = useState("");
   const [alineacion, setAlineacion] = useState({
     por: axel, li: axel, dfcd: axel, dfci: axel, ld: axel, mcd: axel, mi: axel, md: axel, dc: axel, ed: axel, ei: axel
   });
-  const [des, setDes] = useState([])
+  const [des, setDes] = useState([]);
+  const d = new Date();
+  let day = d.getDay() - 2;
 
 
-  if(j.length === 0){
+  if(j === ""){
     axios(
       {
           method: "get",
@@ -34,7 +35,8 @@ function Comunio() {
       setJ(response.data.jugadores)
   })}
 
-  if(punt === 0){
+  console.log(punt)
+  if(punt === ""){
     axios(
       {
           method: "get",
@@ -112,7 +114,9 @@ function Comunio() {
       <Container>
       <Row>
         <Col lg="2">
-          <Card className='mt-4'>
+          { day === 2?
+          <>
+            <Card className='mt-4'>
             <Card.Body>
               <Card.Text className='text-center'>
                 Puntuación: {punt}
@@ -121,15 +125,17 @@ function Comunio() {
             <Card.Body>
               <Card.Text className='text-center'>
                 {
-                des.map(
-                  jugador => (
-                    objs.includes(jugador.split("@")[1])?
-                    <><span>{jugador.split("@")[0]}</span><br/></>:<span></span>
-                  )
-                )}
+                    des.map(
+                      jugador => (
+                        objs.includes(jugador.split("@")[1])?
+                        <><span>{jugador.split("@")[0]}</span><br/></>:<span></span>
+                      )
+                    )
+                }
               </Card.Text>
             </Card.Body>
           </Card>
+          </>:<span></span>}
         </Col>
         <Col id='col2' lg="8" className="mt-5">
         <Row>

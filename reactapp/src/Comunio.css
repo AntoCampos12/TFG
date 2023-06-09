@@ -7,6 +7,9 @@
 
 }
 
+#menu-span{
+  pointer-events: none;
+}
 
 #jug_foto {
   width: 7.5vh;

@@ -21,7 +21,7 @@ function Update(){
                 url: "/partidas/" + pk + "/get"
             }
         ).then((response) => {response.data.equipo===""?setRedirect('hola'):setEquipo(response.data.equipo)})
-    }else if(equipo === 1 && day !== 2){
+    }else if(equipo === 1){
         axios(
             {
                 method: "get",
@@ -30,7 +30,7 @@ function Update(){
         ).then(
             () => {setEquipo(undefined); setRedirect('hola')}
         )
-    }else if(equipo === 0 && day === 2){
+    }else if(equipo === 0){
         axios(
             {
                 method: "get",

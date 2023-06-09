@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from . import settings
-from .views import home, add, obtenerLigas, join, jornada, cambiardia, update
+from .views import getPublicas, home, add, obtenerLigas, join, jornada, cambiardia, update
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,7 +26,8 @@ urlpatterns = [
     path('<int:pk>/poblar',jornada),
     path('join',join),
     path('<int:pk>/dia',cambiardia),
-    path('<int:pk>/update',update)
+    path('<int:pk>/update',update),
+    path('publicas',getPublicas)
 ]
 
 for module in settings.MODULES:
