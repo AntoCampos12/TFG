@@ -8,14 +8,15 @@ import Container from 'react-bootstrap/esm/Container';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert'
 import { Navigate } from 'react-router-dom';
-import "../Inicio.css"
+import "../style/Inicio.css"
 
 
 class AddLiga extends Component {
 
     constructor(props) {
         super(props)
-        this.state = {nombreEquipo: '', nombreLiga: '', isPublic: false, password: '', user : '', error: '', redirect: false}
+        this.state = {nombreEquipo: '', nombreLiga: '', 
+        isPublic: false, password: '', user : '', error: '', redirect: false}
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -26,7 +27,9 @@ class AddLiga extends Component {
                 method: 'post',
                 url: '/'
             }).then((response) => {
-                response.data.user == undefined?this.setState({ redirect: true }):this.setState( { redirect: false });this.setState({ user: response.data.user })
+                response.data.user == undefined?
+                this.setState({ redirect: true }):this.setState( { redirect: false });
+                this.setState({ user: response.data.user })
                 }
             )
     }
@@ -71,9 +74,11 @@ class AddLiga extends Component {
         axios(
             {
               method: 'post',
-              url: '/add',
+              url: '/partidas/add',
               data: formField
-            }).then((response) => {response.data.errors != undefined?this.setState({error: response.data.errors, show: true}):this.setState({redirect: true})})
+            }).then((response) => {response.data.errors != undefined?
+                this.setState({error: response.data.errors, show: true}):
+                this.setState({redirect: true})})
     }
 
     render() 
@@ -89,7 +94,7 @@ class AddLiga extends Component {
                             <Card className='mt-3'>
                                 <Card.Body>
                                     <Card.Title>Añade una liga nueva: {this.state.user}</Card.Title>
-                                    <Form action="/add/" onSubmit={this.handleSubmit}>
+                                    <Form action="/partidas/add/" onSubmit={this.handleSubmit}>
                                         <h3>Liga {this.state.isPublic?<span>Pública</span>:<span>Privada</span>}</h3>
                                         <Form.Group as={ Row } controlId = "formPlaintextLiga">
                                             <Form.Label column className='mb-3' sm="3">

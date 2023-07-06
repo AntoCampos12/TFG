@@ -9,7 +9,7 @@ import Container from "react-bootstrap/Container";
 import axios from "axios";
 import Header from "../tools/Header";
 import Alert from "react-bootstrap/Alert";
-import "../plantilla.css";
+import "../style/plantilla.css";
 
 function header2(user_pk){
     return(
@@ -71,7 +71,7 @@ function Squad(){
                     <Col md="8">
                         <Card id="scroll">
                             <Card.Title className="text-center">
-                                <h2 className="mt-2">TUS JUGADORES</h2>
+                                <h2 className="mt-2">{us === undefined || us === pk?<span>TUS JUGADORES</span>:<span></span>}</h2>
                             </Card.Title>
                             <Card.Body>
                                 <h3>PORTEROS</h3>

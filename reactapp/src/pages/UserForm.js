@@ -6,14 +6,15 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Alert from 'react-bootstrap/Alert';
 import Container from 'react-bootstrap/Container';
-import '../Inicio.css'
+import '../style/Inicio.css'
 import { Navigate } from 'react-router-dom';
 
 
 class UserForm extends Component {
   constructor(props) {
     super(props)
-    this.state = {username: '', email: '', first_name: '', last_name: '', password: '', password2: '', error: '', show: true, redirect: false}
+    this.state = {username: '', email: '', first_name: '',
+     last_name: '', password: '', password2: '', error: '', show: true, redirect: false}
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -21,7 +22,6 @@ class UserForm extends Component {
 
   AlertErrors(errors)
   {
-    console.log(this.state.show)
     if (this.state.show) {
       return (
         <Alert variant="danger" onClose={() => this.setState({show:false})} dismissible>
@@ -53,7 +53,9 @@ class UserForm extends Component {
         method: 'post',
         url: '/authentication/',
         data: formField
-      }).then((response) => {response.data.errors != undefined?this.setState({error: response.data.errors, show: true}):this.setState({redirect: true})})
+      }).then((response) => 
+      {response.data.errors != undefined?
+        this.setState({error: response.data.errors, show: true}):this.setState({redirect: true})})
   }
 
   render() {
@@ -73,7 +75,8 @@ class UserForm extends Component {
                       Usuario:
                     </Form.Label>
                     <Col>
-                      <Form.Control type='text' value={this.state.username} onChange={this.handleChange} name="username"></Form.Control>
+                      <Form.Control type='text' value={this.state.username} onChange={this.handleChange} name="username">
+                      </Form.Control>
                     </Col>
                   </Form.Group>
                   <Form.Group as={Row} className = "mb-1" controlId='formPlaintextEmail'>
@@ -81,7 +84,8 @@ class UserForm extends Component {
                       Correo electrónico:
                     </Form.Label>
                     <Col>
-                      <Form.Control type='email' name="email" value={this.state.email} onChange={this.handleChange}></Form.Control>
+                      <Form.Control type='email' name="email" value={this.state.email} onChange={this.handleChange}>
+                      </Form.Control>
                     </Col>
                   </Form.Group>
                   <Form.Group as={Row} className = "mb-3" controlId='formPlaintextName'>

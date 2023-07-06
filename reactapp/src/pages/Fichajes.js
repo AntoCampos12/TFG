@@ -11,11 +11,11 @@ import Button from 'react-bootstrap/Button';
 import Pagination from 'react-bootstrap/Pagination';
 
 
+const dict_equipos = {'Girona': 0.5, 'Sevilla' : 0.80, 'Rayo Vallecano': 0.6, 'Real Sociedad': 0.85, 'Barcelona' : 1.00, 'Real Betis' : 0.80, 'Elche': 0.3, 'Villarreal':0.80, 'Valladolid': 0.4, 'Athletic Club':0.75, 'Cadiz': 0.4, 'Getafe': 0.4, 'Celta Vigo': 0.6, 'Espanyol': 0.5, 'FC Cartagena' : 0.2, 'Valencia': 0.4, 'Osasuna': 0.7, 'Atletico Madrid' : 0.85, 'Almeria': 0.4, 'Real Madrid': 1.00, 'Mallorca': 0.5}
+
 function commafy( num, equipo ) {
 
-    let equipos = {'Girona': 0.5, 'Sevilla' : 0.80, 'Rayo Vallecano': 0.6, 'Real Sociedad': 0.85, 'Barcelona' : 1.00, 'Real Betis' : 0.80, 'Elche': 0.3, 'Villarreal':0.80, 'Valladolid': 0.4, 'Athletic Club':0.75, 'Cadiz': 0.4, 'Getafe': 0.4, 'Celta Vigo': 0.6, 'Espanyol': 0.5, 'FC Cartagena' : 0.2, 'Valencia': 0.4, 'Osasuna': 0.7, 'Atletico Madrid' : 0.85, 'Almeria': 0.4, 'Real Madrid': 1.00, 'Mallorca': 0.5}
-
-    num = num * equipos[equipo]
+    num = num * dict_equipos[equipo]
     num = parseInt(num)
 
     var str = num.toString().split('.');
@@ -28,27 +28,30 @@ function commafy( num, equipo ) {
     return str.join('.');
 }
 
-function Fichar(jugador, pk) {
-
-    let formField = new FormData()
-    formField.append("jugador",jugador.nombre)
-    formField.append("equipoJugador",jugador.equipo)
-    formField.append("equipo", pk)
-    axios(
-        {
-            method: "post",
-            url: "/partidas/fichar",
-            data: formField
-        }
-    )
-}
-
 function Fichajes() {
 
     const [jugadores, setJugadores] = useState([])
     const [presupuesto, setPresupuesto] = useState(0.00)
     const [page, setPage] = useState(1)
     const { pk } = useParams();
+
+    async function handleSubmit(jugador, pk) {
+
+        let formField = new FormData()
+        formField.append("jugador",jugador.nombre)
+        formField.append("equipoJugador",jugador.equipo)
+        formField.append("equipo", pk)
+        const response = await axios(
+            {
+                method: "post",
+                url: "/partidas/fichar",
+                data: formField
+            }
+        )
+
+        const data = await response.data;
+        setJugadores([]);
+    }
 
 
     if(jugadores === undefined || jugadores.length === 0) {
@@ -59,6 +62,7 @@ function Fichajes() {
             }
         ).then((response) => {
             let res = response.data.jugadores;
+            console.log(res)
             setPresupuesto(res[0]);
             setJugadores(res);
         })
@@ -90,8 +94,11 @@ function Fichajes() {
                         jugadores.slice(5*(page-1) + 1, 5*(page-1) + 6).map(
                             j => (
                                 <Alert>
-                                    <img src={j.foto} style={{ width: 50, height: 50, borderRadius: 50}}/> &nbsp; {j.nombre}, {j.equipo} &nbsp; &nbsp; &nbsp; Precio: {commafy(j.rating * 5000000, j.equipo)}
-                                    &nbsp; &nbsp; <Button onClick={() => {setJugadores(Fichar(j, pk))}}>Fichar</Button>
+                                    <img src={j.foto} style={{ width: 50, height: 50, borderRadius: 50}}/> 
+                                    &nbsp; {j.nombre}, {j.equipo} &nbsp; &nbsp; &nbsp; Rating: {j.rating.toFixed(2)} &nbsp; &nbsp; &nbsp; Precio: {commafy(j.rating * 5000000, j.equipo)}
+                                    &nbsp; &nbsp; {presupuesto > j.rating * 5000000 * dict_equipos[j.equipo]?
+                                    <Button onClick={() => {handleSubmit(j, pk)}}>Fichar</Button>:
+                                    <span style={{color: "red"}}>Presupuesto insuficiente</span>}
                                 </Alert>
                             )
                         )

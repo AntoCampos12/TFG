@@ -6,6 +6,7 @@ import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import Card from 'react-bootstrap/Card';
 import axios from "axios";
+import Alert from 'react-bootstrap/Alert';
 import Header from '../tools/Header';
 import Button from 'react-bootstrap/Button';
 import { CheckCircleFill, XCircle } from 'react-bootstrap-icons';
@@ -14,32 +15,24 @@ function handleSubmit(pk, pk2){
     let formField = new FormData()
 
     let checkboxes = document.querySelectorAll('input[id="check1"]:checked');
-    let values = [];
     checkboxes.forEach((checkbox) => {
-        values.push(checkbox.value);
+        formField.append('jofrece',checkbox.value);
     })
 
     let checkboxes2 = document.querySelectorAll('input[id="check2"]:checked');
-    let values2 = [];
     checkboxes2.forEach((checkbox) => {
-        values2.push(checkbox.value);
+        formField.append('jrecibe',checkbox.value);
     })
 
     formField.append('ofrece',pk);
     formField.append('recibe',pk2);
-    values.forEach(
-        item => {formField.append('jofrece',item)}
-    )
-    values2.forEach(
-        item => {formField.append('jrecibe',item)}
-    )
 
    axios(
         {
           method: 'post',
           url: '/partidas/exchange/post',
           data: formField
-        }).then((response) => {console.log(response.data.error)})
+        }).then((response) => {window.location.reload()})
 }
 
 function borrarExchange(intercambio){
@@ -67,9 +60,10 @@ function Exchange() {
     const [ofrecidos, setOfrecidos] = useState("");
     const [misj , setMisj] = useState("");
     const [susJ, setSusj] = useState("");
-    const [eInt, setEint] = useState("");
+    const [equipoS, setES] = useState("");
     const [pk2, setPk2] = useState("");
     const [equipos, setEquipos] = useState("");
+    const [restr, setRestr] = useState("");
 
     if(propuestos === "" && ofrecidos === ""){
     axios(
@@ -102,14 +96,14 @@ function Exchange() {
         })
     }
 
-    if(eInt !== "" && eInt !== undefined){
+    if(equipoS !== "" && equipoS !== undefined){
         axios(
             {
                 method: "get",
-                url: "/partidas/" + eInt + "/jugadores"
+                url: "/partidas/" + equipoS + "/jugadores"
             }
         ).then((response) => {
-            setSusj(response.data.jugadores);setEint("");
+            setSusj(response.data.jugadores);setES("");
         })
     }
 
@@ -181,6 +175,7 @@ function Exchange() {
                                                     id="check1"
                                                     label={jug[0].nombre}
                                                     value={jug[0].id}
+                                                    onChange={(event) => setRestr(jug[0].nombre)}
                                                 /> 
                                             )
                                         )
@@ -201,6 +196,7 @@ function Exchange() {
                                                 id="check2"
                                                 label={jug[0].nombre}
                                                 value={jug[0].id}
+                                                onChange={(event) => setRestr(jug[0].nombre)}
                                             /> 
                                         )
                                     )
@@ -213,7 +209,7 @@ function Exchange() {
                                 <Card.Title>&nbsp;&nbsp;ELIGE UN EQUIPO</Card.Title>
                             </Card>
                             <Card.Body>
-                                <Form.Select onChange={(event) => {setEint(event.target.value);setPk2(event.target.value)}}>
+                                <Form.Select onChange={(event) => {setES(event.target.value);setPk2(event.target.value)}}>
                                     <option value={""}>Selecciona un equipo</option>
                                     {
                                         equipos === undefined || equipos === ""?<span></span>:
@@ -231,9 +227,11 @@ function Exchange() {
                         <Col md="1"></Col>
                         <Col md="6">
                             <Row className='mt-3'>
+                                {document.querySelectorAll('input[id="check1"]:checked').length == 0 || document.querySelectorAll('input[id="check2"]:checked').length == 0?
+                                <Alert variant='danger'>Selecciona al menos un jugador de cada equipo</Alert>:
                                 <Button variant="primary" type="submit">
                                     Enviar
-                                </Button>
+                                </Button>}
                             </Row>
                         </Col>
                         <Col md="5"></Col>

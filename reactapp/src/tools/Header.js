@@ -12,7 +12,7 @@ function Header() {
   const { pk } = useParams();
 
   const d = new Date();
-  let day = d.getDay() - 2;
+  let day = 4;
 
   return (
     <>

@@ -8,7 +8,7 @@ import Container from 'react-bootstrap/esm/Container';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert'
 import { Navigate } from 'react-router-dom';
-import "../Inicio.css"
+import "../style/Inicio.css"
 
 
 class JoinLiga extends Component {
@@ -25,7 +25,7 @@ class JoinLiga extends Component {
             axios(
                 {
                     method: 'get',
-                    url: '/publicas'
+                    url: '/partidas/publicas'
                 }
             ).then((response) => this.setState({publicas:response.data.ligas}))   
         }
@@ -70,7 +70,7 @@ class JoinLiga extends Component {
         axios(
             {
               method: 'post',
-              url: '/join',
+              url: '/partidas/join',
               data: formField
             }).then((response) => {response.data.errors != undefined?this.setState({error: response.data.errors, show: true}):this.setState({redirect: true})})
     }
@@ -89,7 +89,7 @@ class JoinLiga extends Component {
                             <Card className='mt-3'>
                                 <Card.Body>
                                     <Card.Title>Únete a una liga: {this.state.user}</Card.Title>
-                                    <Form action="/join/" onSubmit={this.handleSubmit}>
+                                    <Form action="/partidas/join/" onSubmit={this.handleSubmit}>
                                         <h3>Liga {this.state.isPublic?<span>Pública</span>:<span>Privada</span>}</h3>
                                         <Form.Group as={ Row } controlId = "formPlaintextLiga">
                                             <Form.Label column className='mb-3' sm="3">

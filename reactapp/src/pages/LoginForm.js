@@ -7,7 +7,7 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Alert from 'react-bootstrap/Alert';
 import Container from 'react-bootstrap/Container';
-import '../Inicio.css'
+import '../style/Inicio.css'
 
 class LoginForm extends Component {
     constructor(props) {
@@ -18,11 +18,28 @@ class LoginForm extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    recuperar(){
+        let formField = new FormData()
+
+        const {username} = this.state
+
+        formField.append('username', username)
+        axios(
+            {
+                method:'post',
+                url: "/partidas/pwd",
+                data: formField
+            }
+        ).then((response) =>{
+            console.log("gmail enviado")
+        })
+    }
+
     AlertErrors(errors) {
         if (this.state.show) {
         return (
-            <Alert variant="danger" onClose={() => this.setState({show: false})} dismissible>
-                {errors}
+            <Alert variant="danger" className="text-center" onClose={() => this.setState({show: false})} dismissible>
+                {errors}<div className='text-center' type="button" onClick={() => {this.recuperar()}}><u>¿Quieres recuperar contraseña de {this.state.username}?</u></div>
             </Alert>
         );
         }
@@ -69,8 +86,8 @@ class LoginForm extends Component {
                 {this.state.redirect2 && <Navigate to="/authentication/" replace={true}/>}
                 <Container style={{ maxWidth: 6000 }}>
                 <Row>
-                    <Col></Col>
-                    <Col className='w'>
+                    <Col md="6"></Col>
+                    <Col md="6" className='w'>
                         <Row className='h-100 justify-content-center align-items-center'>
                             <Col md="11">
                                 <h1 className='text-center mb-5' id='abril'>SIM SOCCER</h1>

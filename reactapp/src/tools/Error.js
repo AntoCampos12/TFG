@@ -14,7 +14,7 @@ function Error(){
         <>
             {redirect && <Navigate to="/" replace={true}/>}
             <Container>
-                <Alert variant="danger" className="text-center mt-5">El equipo al que intentas acceder no pertenece a tu usuario 😡😡</Alert>
+                <Alert variant="danger" className="text-center mt-5">No has autorizado para acceder a este sitio 😡😡</Alert>
                 <Row>
                     <Col md="4"></Col>
                     <Col md="4" className="text-center mt-5"><Button onClick={() => setRedirect(true)}>Menú Principal</Button></Col>

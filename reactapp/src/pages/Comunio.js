@@ -6,8 +6,8 @@ import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import React, { useState } from 'react';
 import Container from 'react-bootstrap/Container';
-import '../Comunio.css';
-import axel from '../axel.jpg';
+import '../style/Comunio.css';
+import axel from '../static/images/axel.jpg';
 
 function hasKeySetTo(obj,value){
     return Object.values(obj).indexOf(value) > -1
@@ -22,7 +22,7 @@ function Comunio() {
   });
   const [des, setDes] = useState([]);
   const d = new Date();
-  let day = d.getDay() - 2;
+  let day = 4;
 
 
   if(j === ""){

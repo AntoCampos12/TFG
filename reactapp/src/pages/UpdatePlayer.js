@@ -6,7 +6,7 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Alert from 'react-bootstrap/Alert';
 import Container from 'react-bootstrap/Container';
-import '../Inicio.css'
+import '../style/Inicio.css'
 import { Navigate } from 'react-router-dom';
 
 
